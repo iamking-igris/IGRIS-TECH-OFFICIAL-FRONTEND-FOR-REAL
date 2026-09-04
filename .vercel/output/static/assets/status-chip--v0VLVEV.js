@@ -1,0 +1,1 @@
+import{t as e}from"./jsx-runtime-BkSabwWG.js";import{t}from"./utils-Dk_44zMo.js";var n=e();function r({children:e,invert:r=!1,className:i}){return(0,n.jsx)(`span`,{className:t(`inline-block border px-2 py-1 font-mono text-[10px] tracking-widest`,r?`border-coal/20 text-coal/70`:`border-hairline text-quiet`,i),children:e})}export{r as t};

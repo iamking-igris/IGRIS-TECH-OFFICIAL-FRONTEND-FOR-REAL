@@ -1,0 +1,294 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Syne", "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  --color-canvas: #070708;
+  --color-panel: #0e0e10;
+  --color-raised: #141417;
+  --color-ink: #f3f3f0;
+  --color-quiet: #8d8d88;
+  --color-faint: #5c5c58;
+  --color-hairline: #1d1d21;
+  --color-paper: #f2f1ec;
+  --color-coal: #111113;
+  --color-rule: #2a2a2e;
+  --color-danger: #c45c4a;
+
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --motion-micro: 80ms;
+  --motion-quick: 150ms;
+  --motion-fast: 250ms;
+  --motion-medium: 350ms;
+  --motion-slow: 500ms;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: var(--color-canvas);
+    color: var(--color-ink);
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+  body {
+    background: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    min-height: 100dvh;
+    overflow-x: hidden;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-ink) 22%, transparent);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+    font-family: var(--font-display);
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  input,
+  select,
+  textarea {
+    border-radius: 0;
+    color-scheme: dark;
+  }
+
+  select option {
+    background: var(--color-canvas);
+    color: var(--color-ink);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .hairline {
+    border-color: var(--color-hairline);
+  }
+
+  .label-tech {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-quiet);
+    font-weight: 500;
+  }
+
+  .wordmark {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .hex-grid {
+    background-image:
+      linear-gradient(
+        to right,
+        color-mix(in oklab, var(--color-ink) 5%, transparent) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        to bottom,
+        color-mix(in oklab, var(--color-ink) 5%, transparent) 1px,
+        transparent 1px
+      );
+    background-size: 72px 72px;
+    mask-image: radial-gradient(ellipse at 70% 40%, black 18%, transparent 74%);
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity var(--motion-slow) var(--ease-out-soft),
+      transform var(--motion-slow) var(--ease-out-soft);
+  }
+
+  .reveal.is-in {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/*
+  Vertical guides sit on the content column (max 1440px), not the viewport.
+  That keeps them aligned with page padding and avoids empty side columns
+  on wide screens. Two 1px rules — nothing else.
+*/
+.site-frame {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 10%,
+    black 90%,
+    transparent 100%
+  );
+}
+
+.site-frame-inner {
+  height: 100%;
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  background-image:
+    linear-gradient(
+      to right,
+      color-mix(in oklab, var(--color-ink) 5%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to right,
+      color-mix(in oklab, var(--color-ink) 5%, transparent) 1px,
+      transparent 1px
+    );
+  background-repeat: no-repeat;
+  background-size: 1px 100%;
+  background-position:
+    1.25rem 0,
+    calc(100% - 1.25rem) 0;
+}
+
+@media (min-width: 640px) {
+  .site-frame-inner {
+    background-position:
+      2rem 0,
+      calc(100% - 2rem) 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .site-frame-inner {
+    background-position:
+      3rem 0,
+      calc(100% - 3rem) 0;
+  }
+}
+
+@media (min-width: 1280px) {
+  .site-frame-inner {
+    background-position:
+      4rem 0,
+      calc(100% - 4rem) 0;
+  }
+}
+
+.scroll-progress {
+  transform-origin: left center;
+  transform: scaleX(var(--progress, 0));
+}
+
+.btn-arrow {
+  display: inline-block;
+  transition: transform var(--motion-quick) var(--ease-out-soft);
+}
+
+a:hover .btn-arrow,
+button:hover .btn-arrow {
+  transform: translateX(4px);
+}
+
+.project-frame {
+  --px: 0;
+  --py: 0;
+  cursor: crosshair;
+}
+
+.project-frame .project-stage {
+  transform: translate3d(calc(var(--px) * -10px), calc(var(--py) * -8px), 0)
+    scale(1.02);
+  transition: transform 700ms var(--ease-out-soft);
+}
+
+.project-frame:hover .project-stage {
+  transform: translate3d(calc(var(--px) * -16px), calc(var(--py) * -12px), 0)
+    scale(1.045);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .project-frame .project-stage,
+  .project-frame:hover .project-stage {
+    transform: none;
+  }
+
+  a:hover .btn-arrow,
+  button:hover .btn-arrow {
+    transform: none;
+  }
+}
+
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.hero-rise {
+  animation: hero-rise 700ms var(--ease-out-soft) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-rise {
+    animation: none;
+  }
+}
