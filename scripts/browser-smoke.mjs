@@ -27,10 +27,12 @@ if (args.error) {
 }
 
 const url = checkedUrl(args.url);
-const outPng = checkedOutputPath(args.outPng, ["/workspace"]);
+// Allow running in both Grok sandbox (/workspace) and local project folder during local dev.
+const allowedDirs = ["/workspace", process.cwd()];
+const outPng = checkedOutputPath(args.outPng, allowedDirs);
 const derived = derivedPaths(outPng);
-const mobilePng = checkedOutputPath(derived.mobilePng, ["/workspace"]);
-const outJson = checkedOutputPath(derived.verdictJson, ["/workspace"], "verdict JSON");
+const mobilePng = checkedOutputPath(derived.mobilePng, allowedDirs);
+const outJson = checkedOutputPath(derived.verdictJson, allowedDirs, "verdict JSON");
 
 const MAX_BASELINE_BYTES = 1024 * 1024;
 const baselineRequested = Boolean(args.baseline);

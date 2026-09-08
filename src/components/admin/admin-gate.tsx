@@ -4,7 +4,12 @@ import { BrandLockup } from "@/components/brand/logo";
 import { Button } from "@/components/ui/button-link";
 import { TextInput } from "@/components/admin/fields";
 import { AdminShell } from "@/components/admin/admin-shell";
-import { isAdminAuthenticated, loginAdmin } from "@/lib/admin-auth";
+import {
+  isAdminAuthenticated,
+  loginAdmin,
+  logoutAdmin,
+  verifyAdminSession,
+} from "@/lib/admin-auth";
 
 export function AdminGate() {
   const [ready, setReady] = useState(false);
@@ -12,14 +17,31 @@ export function AdminGate() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   useEffect(() => {
-    setAuthed(isAdminAuthenticated());
-    setReady(true);
+    let cancelled = false;
+    async function checkAuth() {
+      if (!isAdminAuthenticated()) {
+        if (!cancelled) {
+          setAuthed(false);
+          setReady(true);
+        }
+        return;
+      }
+      const valid = await verifyAdminSession();
+      if (!cancelled) {
+        setAuthed(valid);
+        setReady(true);
+      }
+    }
+    checkAuth();
+    return () => {
+      cancelled = true;
+    };
   }, [pathname]);
 
   if (!ready) {
     return (
       <div className="flex min-h-dvh items-center justify-center bg-canvas text-ink">
-        <p className="label-tech">IGRIS / ADMIN</p>
+        <p className="label-tech animate-pulse">IGRIS / VERIFYING SESSION</p>
       </div>
     );
   }
@@ -29,7 +51,12 @@ export function AdminGate() {
   }
 
   return (
-    <AdminShell onLogout={() => setAuthed(false)}>
+    <AdminShell
+      onLogout={() => {
+        logoutAdmin();
+        setAuthed(false);
+      }}
+    >
       <Outlet />
     </AdminShell>
   );
@@ -38,15 +65,22 @@ export function AdminGate() {
 function AdminLogin({ onSuccess }: { onSuccess: () => void }) {
   const [error, setError] = useState("");
   const [value, setValue] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
-  function onSubmit(e: FormEvent) {
+  async function onSubmit(e: FormEvent) {
     e.preventDefault();
-    if (loginAdmin(value)) {
-      setError("");
+    if (!value.trim() || submitting) return;
+    setSubmitting(true);
+    setError("");
+
+    const success = await loginAdmin(value.trim());
+    setSubmitting(false);
+
+    if (success) {
       onSuccess();
       return;
     }
-    setError("That password isn’t right.");
+    setError("Invalid admin credentials. Please try again.");
   }
 
   return (
@@ -82,8 +116,8 @@ function AdminLogin({ onSuccess }: { onSuccess: () => void }) {
               {error}
             </p>
           ) : null}
-          <Button type="submit" variant="primary" arrow>
-            Continue
+          <Button type="submit" variant="primary" disabled={submitting} arrow={!submitting}>
+            {submitting ? "Authenticating..." : "Continue"}
           </Button>
         </form>
       </div>

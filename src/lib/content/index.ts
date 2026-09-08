@@ -9,21 +9,33 @@ export { seedProjects, seedEcosystem } from "./seed";
 
 import { useEffect, useState } from "react";
 import { useContentStore } from "./store";
+import { subscribeAuth } from "@/lib/api";
 
-/** True after the mock store has rehydrated from localStorage (client). */
+/** True after the content store has hydrated from storage & synced with backend. */
 export function useContentHydrated() {
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
     const unsub = useContentStore.persist.onFinishHydration(() => {
       setHydrated(true);
+      void useContentStore.getState().syncFromBackend();
     });
+
     if (useContentStore.persist.hasHydrated()) {
       setHydrated(true);
+      void useContentStore.getState().syncFromBackend();
     } else {
       void useContentStore.persist.rehydrate();
     }
-    return unsub;
+
+    const unsubAuth = subscribeAuth(() => {
+      void useContentStore.getState().syncFromBackend();
+    });
+
+    return () => {
+      unsub();
+      unsubAuth();
+    };
   }, []);
 
   return hydrated;

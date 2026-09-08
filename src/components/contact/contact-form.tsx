@@ -39,7 +39,7 @@ export function ContactForm() {
     setMessage("");
 
     try {
-      contactService.submit({
+      await contactService.submit({
         name,
         email,
         company: String(data.get("company") ?? "").trim(),

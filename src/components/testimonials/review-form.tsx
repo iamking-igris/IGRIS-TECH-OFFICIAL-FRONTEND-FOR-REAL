@@ -27,7 +27,7 @@ export function ReviewForm() {
     setMessage("");
 
     try {
-      reviewsService.submit({
+      await reviewsService.submit({
         clientName,
         company: String(data.get("company") ?? "").trim(),
         role: String(data.get("role") ?? "").trim(),

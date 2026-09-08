@@ -4,6 +4,7 @@ export type ProjectStatus = "live" | "in-preparation" | "archived";
 
 export type Project = {
   id: string;
+  numericId?: number | null;
   slug: string;
   title: string;
   client: string;
@@ -23,6 +24,7 @@ export type Project = {
   gallery: { src: string; alt: string }[];
   testimonial: string | null;
   featuredImage: string | null;
+  cover_image?: string | null;
   url: string | null;
   featured: boolean;
   published: boolean;
@@ -33,6 +35,11 @@ export type Project = {
   seoTitle: string;
   seoDescription: string;
 };
+
+// Backwards-compatible alias for external API field `cover_image`.
+// Some parts of the app use `featuredImage`; add `cover_image` to avoid
+// breaking code that references the API-style field name.
+export type ProjectWithCoverAlias = Project & { cover_image?: string | null };
 
 export type ProjectInput = {
   title: string;

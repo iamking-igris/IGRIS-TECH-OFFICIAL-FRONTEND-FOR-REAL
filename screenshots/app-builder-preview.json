@@ -1,39 +1,5 @@
 {
+  "ok": false,
   "url": "http://127.0.0.1:8080/",
-  "viewports": {
-    "desktop": {
-      "width": 1280,
-      "height": 800,
-      "status": 200,
-      "title": "IGRIS Tech — Digital Products, Web Development & Software",
-      "hasCanvas": true,
-      "bodyTextLen": 4048,
-      "bodyTextHash": "c21495af2ee1dee56541a1e815f56e779a768976055fdc18c64a1f29233e7db0",
-      "bodyTextPrefix": "Skip to content IGRIS TECH Services Work Ecosystem About Start a",
-      "horizontalOverflow": false,
-      "consoleErrors": [],
-      "pageErrors": [],
-      "screenshot": "/home/king/Downloads/IGRIS STUDIO FRONTEDN/screenshots/app-builder-preview.png"
-    },
-    "mobile": {
-      "width": 390,
-      "height": 844,
-      "status": 200,
-      "title": "IGRIS Tech — Digital Products, Web Development & Software",
-      "hasCanvas": true,
-      "bodyTextLen": 3937,
-      "bodyTextHash": "e88c5b8bf45df62bb40a982866b806da028486f63c69008071838efb970e403d",
-      "bodyTextPrefix": "Skip to content IGRIS TECH IGRIS / 00 We build what’s next. IGRI",
-      "horizontalOverflow": false,
-      "consoleErrors": [],
-      "pageErrors": [],
-      "screenshot": "/home/king/Downloads/IGRIS STUDIO FRONTEDN/screenshots/app-builder-preview-mobile.png"
-    }
-  },
-  "brandWarnings": [
-    "BRAND WARNING: this looks like a game/canvas app but /workspace/public/og.jpg is missing. Games and visually rich apps must ship a custom 1200x630 share card built from the app's own art — the default og.grok.me placeholder card is not acceptable for them. You are not done: open /workspace/.grok/skills/og/SKILL.md and finish the brand-asset pass.",
-    "BRAND WARNING: this looks like a game/canvas app but src/lib/og/site.json is missing \"type\": \"x:game\". X uses og:type=x:game to present the unfurl as a game card — set it in /workspace/src/lib/og/site.json per /workspace/.grok/skills/og/SKILL.md. Do not invent x:type or overload twitter:card as the game signal."
-  ],
-  "authWarnings": [],
-  "verdictFile": "/home/king/Downloads/IGRIS STUDIO FRONTEDN/screenshots/app-builder-preview.json"
+  "error": "browserType.launch: Executable doesn't exist at /home/king/.cache/ms-playwright/chromium_headless_shell-1234/chrome-headless-shell-linux64/chrome-headless-shell\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     npx playwright install                                 ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝"
 }

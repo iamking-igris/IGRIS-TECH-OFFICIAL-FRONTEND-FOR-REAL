@@ -1,19 +1,28 @@
-import { useCallback, useRef, type PointerEvent } from "react";
+import { useCallback, useEffect, useRef, useState, type PointerEvent } from "react";
 import { cn } from "@/lib/utils";
 import type { ProjectVisualId } from "@/lib/content";
 
 export function ProjectVisual({
   visual,
+  imageUrl,
   className,
   interactive = true,
   caption,
 }: {
   visual: ProjectVisualId;
+  imageUrl?: string | null;
   className?: string;
   interactive?: boolean;
   caption?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
+  const [imgError, setImgError] = useState(false);
+  const [imgLoaded, setImgLoaded] = useState(false);
+
+  useEffect(() => {
+    setImgError(false);
+    setImgLoaded(false);
+  }, [imageUrl]);
 
   const onMove = useCallback(
     (e: PointerEvent<HTMLDivElement>) => {
@@ -54,6 +63,19 @@ export function ProjectVisual({
         {visual === "alpha" && <Alpha />}
         {visual === "beta" && <Beta />}
         {visual === "gamma" && <Gamma />}
+
+        {imageUrl && !imgError && (
+          <img
+            src={imageUrl}
+            alt=""
+            className={cn(
+              "absolute inset-0 h-full w-full object-cover transition-opacity duration-500",
+              imgLoaded ? "opacity-100" : "opacity-0",
+            )}
+            onLoad={() => setImgLoaded(true)}
+            onError={() => setImgError(true)}
+          />
+        )}
       </div>
       <div className="pointer-events-none absolute inset-x-0 top-0 flex items-center justify-between px-3 py-2.5">
         <span className="font-mono text-[10px] tracking-widest text-faint">

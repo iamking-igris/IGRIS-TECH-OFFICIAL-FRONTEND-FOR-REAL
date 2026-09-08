@@ -1,1 +1,0 @@
-import{t as e}from"./admin-gate-EIobM9r_.js";var t=e;export{t as component};

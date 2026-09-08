@@ -1,80 +1,64 @@
-/* Centralized API client used across the frontend. */
-export const API_BASE =
-  (import.meta.env.VITE_API_BASE_URL as string) || "http://127.0.0.1:8000";
-
-type FetchOptions = RequestInit & { /** if true, don't throw on non-2xx */ silent?: boolean };
-
-async function parseJsonSafe(response: Response) {
-  const text = await response.text();
-  try {
-    return text ? JSON.parse(text) : null;
-  } catch {
-    return text;
-  }
-}
-
-export async function apiFetch(path: string, opts: FetchOptions = {}) {
-  const url = path.startsWith("http") ? path : `${API_BASE.replace(/\/$/, "")}${path.startsWith("/") ? "" : "/"}${path}`;
-  const headers: Record<string, string> = {
-    Accept: "application/json",
-    ...(opts.headers as Record<string, string>),
-  };
-
-  const init: RequestInit = {
-    method: opts.method ?? "GET",
-    headers,
-    body: opts.body as any,
-    credentials: "include",
-    ...opts,
-  };
-
-  if (init.body && typeof init.body !== "string" && !(init.body instanceof FormData)) {
-    init.body = JSON.stringify(init.body);
-    headers["Content-Type"] = "application/json";
-  }
-
-  const res = await fetch(url, init);
-  if (!res.ok && !opts.silent) {
-    const data = await parseJsonSafe(res);
-    const message = (data && (data.message || data.detail || data.error)) || res.statusText;
-    const err: any = new Error(`API ${res.status} ${message}`);
-    err.status = res.status;
-    err.data = data;
-    throw err;
-  }
-
-  if (res.status === 204) return null;
-  return parseJsonSafe(res);
-}
-
-export async function getOpenApi() {
-  try {
-    return await apiFetch("/openapi.json", { silent: true });
-  } catch (e) {
-    return null;
-  }
-}
-
-export default apiFetch;
 /**
- * Central API client for IGRIS Tech backend integration.
- * Communicates with the FastAPI backend (default: http://127.0.0.1:8000).
+ * Central API Client for IGRIS Tech backend.
+ * Handles:
+ * - Centralized base URL configuration via VITE_API_BASE_URL
+ * - JSON headers & body serialization
+ * - Automatic Authorization: Bearer <token> attachment
+ * - Unified response parsing & error formatting
+ * - Centralized 401 handling & token clearing
  */
 
-export const API_BASE_URL: string =
-  (import.meta.env?.VITE_API_BASE_URL as string | undefined)?.replace(/\/+$/, "") ||
-  "http://127.0.0.1:8000";
+const RAW_BASE_URL =
+  (import.meta.env?.VITE_API_BASE_URL as string | undefined)?.trim() ||
+  "https://igris-tech-official-backend-for-real-production.up.railway.app/api/v1";
 
-const ADMIN_PASSWORD_KEY = "igris-admin-password";
+// Ensure no trailing slash
+export const API_BASE_URL: string = RAW_BASE_URL.replace(/\/+$/, "");
 
-export function getAdminPassword(): string | null {
-  if (typeof window === "undefined") return null;
-  return sessionStorage.getItem(ADMIN_PASSWORD_KEY) || null;
+const AUTH_TOKEN_KEY = "igris_admin_token";
+
+type AuthListener = (authenticated: boolean) => void;
+const authListeners: Set<AuthListener> = new Set();
+
+export function subscribeAuth(listener: AuthListener): () => void {
+  authListeners.add(listener);
+  return () => authListeners.delete(listener);
 }
 
-export function setAdminPassword(password: string): void {
+function notifyAuthChange(authed: boolean) {
+  authListeners.forEach((fn) => {
+    try {
+      fn(authed);
+    } catch (e) {
+      console.error("[api] Auth listener error:", e);
+    }
+  });
+}
+
+export function getAuthToken(): string | null {
+  if (typeof window === "undefined") return null;
+  return (
+    localStorage.getItem(AUTH_TOKEN_KEY) ||
+    sessionStorage.getItem(AUTH_TOKEN_KEY) ||
+    null
+  );
+}
+
+export function setAuthToken(token: string, persist = true): void {
   if (typeof window === "undefined") return;
-  sessionStorage.setItem(ADMIN_PASSWORD_KEY, password);
+  if (persist) {
+    localStorage.setItem(AUTH_TOKEN_KEY, token);
+  } else {
+    sessionStorage.setItem(AUTH_TOKEN_KEY, token);
+  }
+  notifyAuthChange(true);
+}
+
+export function clearAuthToken(): void {
+  if (typeof window === "undefined") return;
+  localStorage.removeItem(AUTH_TOKEN_KEY);
+  sessionStorage.removeItem(AUTH_TOKEN_KEY);
+  notifyAuthChange(false);
 }
 
 export class ApiError extends Error {
@@ -89,25 +73,46 @@ export class ApiError extends Error {
   }
 }
 
-interface RequestOptions extends RequestInit {
+export interface RequestOptions extends RequestInit {
   params?: Record<string, string | number | boolean | null | undefined>;
-  requiresAdmin?: boolean;
+  skipAuth?: boolean;
+}
+
+/**
+ * Builds the complete URL from endpoint.
+ * Handles endpoints like:
+ * - "/projects" -> "<API_BASE_URL>/projects"
+ * - "/api/v1/projects" -> "<origin>/api/v1/projects" or normalized to base
+ * - full "http://..."
+ */
+function resolveUrl(endpoint: string): string {
+  if (endpoint.startsWith("http://") || endpoint.startsWith("https://")) {
+    return endpoint;
+  }
+
+  const cleanPath = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
+
+  // If base URL already ends with /api/v1 and path starts with /api/v1, avoid duplication
+  if (API_BASE_URL.endsWith("/api/v1") && cleanPath.startsWith("/api/v1/")) {
+    const rootBase = API_BASE_URL.slice(0, -"/api/v1".length);
+    return `${rootBase}${cleanPath}`;
+  }
+
+  return `${API_BASE_URL}${cleanPath}`;
 }
 
 export async function apiClient<T>(
   endpoint: string,
   options: RequestOptions = {},
 ): Promise<T> {
-  const { params, requiresAdmin, headers: customHeaders, ...fetchOptions } = options;
+  const { params, skipAuth = false, headers: customHeaders, ...fetchOptions } = options;
 
-  let url = endpoint.startsWith("http")
-    ? endpoint
-    : `${API_BASE_URL}${endpoint.startsWith("/") ? "" : "/"}${endpoint}`;
+  let url = resolveUrl(endpoint);
 
   if (params) {
     const searchParams = new URLSearchParams();
     for (const [key, val] of Object.entries(params)) {
-      if (val !== null && val !== undefined) {
+      if (val !== null && val !== undefined && val !== "") {
         searchParams.append(key, String(val));
       }
     }
@@ -130,14 +135,11 @@ export async function apiClient<T>(
     headers.set("Content-Type", "application/json");
   }
 
-  // Admin authentication if required or available
-  const adminPassword = getAdminPassword();
-  if (adminPassword && (requiresAdmin || endpoint.includes("/admin") || ["POST", "PATCH", "DELETE"].includes(fetchOptions.method?.toUpperCase() || ""))) {
-    if (!headers.has("X-Admin-Password")) {
-      headers.set("X-Admin-Password", adminPassword);
-    }
-    if (!headers.has("Authorization")) {
-      headers.set("Authorization", `Bearer ${adminPassword}`);
+  // Automatically attach Bearer token if present
+  if (!skipAuth) {
+    const token = getAuthToken();
+    if (token && !headers.has("Authorization")) {
+      headers.set("Authorization", `Bearer ${token}`);
     }
   }
 
@@ -149,9 +151,19 @@ export async function apiClient<T>(
     });
   } catch (networkErr) {
     throw new ApiError(
-      networkErr instanceof Error ? networkErr.message : "Network error. Backend unreachable.",
+      networkErr instanceof Error
+        ? networkErr.message
+        : "Network error. Backend unreachable.",
       0,
     );
+  }
+
+  // Handle 401 Unauthorized centrally
+  if (response.status === 401) {
+    // If we had a token, it is expired or invalid
+    if (getAuthToken()) {
+      clearAuthToken();
+    }
   }
 
   // Parse response
@@ -179,7 +191,9 @@ export async function apiClient<T>(
         errorMessage = errObj.detail;
       } else if (Array.isArray(errObj.detail)) {
         errorMessage = errObj.detail
-          .map((item) => (typeof item === "object" && item?.msg ? item.msg : String(item)))
+          .map((item) =>
+            typeof item === "object" && item?.msg ? item.msg : String(item),
+          )
           .join(", ");
       } else if (typeof errObj.message === "string") {
         errorMessage = errObj.message;

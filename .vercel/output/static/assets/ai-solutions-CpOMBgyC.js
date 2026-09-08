@@ -1,0 +1,1 @@
+import{t as e}from"./jsx-runtime-BkSabwWG.js";import{o as t}from"./index-C-B37n3I.js";import{t as n}from"./service-page-CqChcDBx.js";var r=e(),i=()=>(0,r.jsx)(n,{service:t});export{i as component};

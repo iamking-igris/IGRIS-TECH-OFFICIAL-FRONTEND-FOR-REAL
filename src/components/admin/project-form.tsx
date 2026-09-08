@@ -1,4 +1,5 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button-link";
 import {
   CheckRow,
@@ -210,24 +211,20 @@ export function ProjectForm({
         </Field>
       </div>
 
-      <div className="grid gap-3 md:grid-cols-2">
-        <Field label="Cover image URL" htmlFor="cover_image" hint="(used as project cover)">
+      <div className="grid gap-6 md:grid-cols-2 md:items-start">
+        <Field label="Cover image URL" htmlFor="cover_image" hint="(external image link)">
           <TextInput
             id="cover_image"
             type="url"
             inputMode="url"
-            placeholder="https://.../cover.jpg"
+            placeholder="https://example.com/cover.jpg"
             value={cover}
             onChange={(e) => setCover(e.target.value)}
           />
         </Field>
-        <div className="flex items-center">
-          {cover ? (
-            // eslint-disable-next-line jsx-a11y/alt-text
-            <img src={cover} className="w-full max-w-xs rounded-md object-cover" />
-          ) : (
-            <div className="text-quiet text-sm">No cover image set</div>
-          )}
+        <div>
+          <p className="mb-2 font-mono text-[10px] tracking-widest text-faint">PREVIEW</p>
+          <CoverImagePreview url={cover} />
         </div>
       </div>
       <div className="grid gap-3 border-t border-hairline pt-6">
@@ -258,5 +255,63 @@ export function ProjectForm({
         </Button>
       </div>
     </form>
+  );
+}
+
+function CoverImagePreview({ url }: { url: string }) {
+  const [loadState, setLoadState] = useState<"idle" | "loading" | "loaded" | "error">("idle");
+
+  useEffect(() => {
+    if (!url.trim()) {
+      setLoadState("idle");
+      return;
+    }
+    setLoadState("loading");
+  }, [url]);
+
+  if (!url.trim()) {
+    return (
+      <div className="relative flex aspect-[16/9] w-full max-w-xs flex-col items-center justify-center border border-hairline bg-panel p-4 text-center">
+        <div className="pointer-events-none absolute inset-0 hex-grid opacity-20" />
+        <p className="font-mono text-[10px] tracking-widest text-faint">
+          IGRIS / NO COVER IMAGE
+        </p>
+        <p className="mt-1 text-xs text-quiet">
+          Enter an image URL to preview
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative aspect-[16/9] w-full max-w-xs overflow-hidden border border-hairline bg-canvas">
+      {loadState === "loading" && (
+        <div className="absolute inset-0 flex items-center justify-center bg-panel">
+          <span className="font-mono text-[10px] tracking-widest text-faint animate-pulse">
+            LOADING PREVIEW...
+          </span>
+        </div>
+      )}
+      {loadState === "error" && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-panel p-4 text-center">
+          <p className="font-mono text-[10px] tracking-widest text-faint">
+            UNABLE TO LOAD IMAGE PREVIEW
+          </p>
+          <p className="mt-1 text-xs text-quiet">
+            Verify image URL is accessible
+          </p>
+        </div>
+      )}
+      <img
+        src={url}
+        alt="Project cover preview"
+        className={cn(
+          "h-full w-full object-cover transition-opacity duration-300",
+          loadState === "loaded" ? "opacity-100" : "opacity-0",
+        )}
+        onLoad={() => setLoadState("loaded")}
+        onError={() => setLoadState("error")}
+      />
+    </div>
   );
 }

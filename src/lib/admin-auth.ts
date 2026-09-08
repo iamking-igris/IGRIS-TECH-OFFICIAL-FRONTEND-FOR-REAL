@@ -1,31 +1,34 @@
 /**
- * Development-only admin gate.
- *
- * This is NOT production authentication.
- * It is a temporary client-side check so the admin UI can be prototyped.
- * Replace this module with real backend auth (session / HTTP-only cookie)
- * before any public deployment of /admin.
+ * Real Backend JWT Authentication Gate for Admin.
+ * Handles login via POST /api/v1/auth/login, token storage, and session verification via GET /api/v1/auth/verify.
  */
 
-const SESSION_KEY = "igris-admin-dev-session";
+import { authService } from "@/services/auth";
 
-/** Temporary mock password for local prototyping. Not a production secret. */
-const DEV_MOCK_PASSWORD = "iamking";
-
-export function isAdminAuthenticated() {
-  if (typeof window === "undefined") return false;
-  return sessionStorage.getItem(SESSION_KEY) === "ok";
+export function isAdminAuthenticated(): boolean {
+  return authService.hasToken();
 }
 
-export function loginAdmin(password: string) {
-  if (password === DEV_MOCK_PASSWORD) {
-    sessionStorage.setItem(SESSION_KEY, "ok");
-    return true;
+export async function verifyAdminSession(): Promise<boolean> {
+  if (!authService.hasToken()) return false;
+  try {
+    const res = await authService.verify();
+    return res.status === "authenticated";
+  } catch {
+    authService.logout();
+    return false;
   }
-  return false;
 }
 
-export function logoutAdmin() {
-  if (typeof window === "undefined") return;
-  sessionStorage.removeItem(SESSION_KEY);
+export async function loginAdmin(password: string): Promise<boolean> {
+  try {
+    const res = await authService.login(password);
+    return Boolean(res.access_token);
+  } catch {
+    return false;
+  }
+}
+
+export function logoutAdmin(): void {
+  authService.logout();
 }

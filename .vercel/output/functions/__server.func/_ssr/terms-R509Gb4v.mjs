@@ -1,5 +1,5 @@
 import { u as require_jsx_runtime } from "../_libs/@radix-ui/react-alert-dialog+[...].mjs";
-import { m as Container } from "./router-ZY7VAfYm.mjs";
+import { m as Container } from "./router-RsAy9zmm.mjs";
 import { t as PageHeader } from "./page-header-InNPX9q0.mjs";
 //#region node_modules/.nitro/vite/services/ssr/assets/terms-R509Gb4v.js
 var import_jsx_runtime = require_jsx_runtime();

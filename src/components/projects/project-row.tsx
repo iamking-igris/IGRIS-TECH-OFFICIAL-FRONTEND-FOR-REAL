@@ -27,6 +27,7 @@ export function ProjectRow({
       >
         <ProjectVisual
           visual={project.visual}
+          imageUrl={project.cover_image || project.featuredImage}
           className="aspect-[16/10]"
           caption={project.placeholder ? "PREPARING" : project.category.toUpperCase()}
         />
