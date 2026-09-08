@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { cn } from "@/lib/utils";
 import {
@@ -6,6 +6,14 @@ import {
   PRECOMPUTED_LAND_DOTS,
   PRECOMPUTED_OCEAN_DOTS,
 } from "@/components/hero/world-land-data";
+
+// Intentional IGRIS Tech brand telemetry micro-labels
+export const GLOBE_LABELS = {
+  topLeft: "SYSTEM / IGRIS",
+  topRight: "NETWORK / GLOBAL",
+  bottomLeft: "BUILD / EVOLVE",
+  bottomRight: "IDEAS → IMPACT",
+} as const;
 
 // Strategic Global Network Hubs
 interface HubLocation {
@@ -181,7 +189,6 @@ const sphereCoreFragmentShader = `
 export function GlobalNetworkGlobe({ className }: { className?: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [activeNode, setActiveNode] = useState<string>("SYSTEM / ACTIVE");
 
   useEffect(() => {
     const container = containerRef.current;
@@ -576,9 +583,6 @@ export function GlobalNetworkGlobe({ className }: { className?: string }) {
             packet.delay = Math.floor(70 + Math.random() * 140);
             packet.arcIndex = Math.floor(Math.random() * activeArcs.length);
             packet.mesh.visible = false;
-            if (Math.random() > 0.5) {
-              setActiveNode(`NODE / ${arc.to.id} // ${arc.to.name.toUpperCase()}`);
-            }
           } else {
             packet.mesh.visible = true;
             const pt = arc.curve.getPoint(packet.progress);
@@ -704,20 +708,22 @@ export function GlobalNetworkGlobe({ className }: { className?: string }) {
       />
 
       {/* Subtle Minimalist HUD Telemetry Annotations */}
-      <div className="pointer-events-none absolute inset-x-5 top-4 flex items-center justify-between z-20 font-mono text-[9px] uppercase tracking-[0.18em] text-faint">
+      <div className="pointer-events-none absolute inset-x-4 top-3 sm:inset-x-5 sm:top-4 flex items-center justify-between z-20 font-mono text-[8px] sm:text-[9px] uppercase tracking-[0.14em] sm:tracking-[0.18em] text-faint">
         <span className="flex items-center gap-1.5">
           <span className="inline-block h-1 w-1 bg-ink/60 rounded-full animate-pulse" />
-          SYSTEM / GLOBAL
+          {GLOBE_LABELS.topLeft}
         </span>
-        <span className="text-faint/70 hidden sm:inline-block">
-          NETWORK / ACTIVE
+        <span className="text-faint/70">
+          {GLOBE_LABELS.topRight}
         </span>
       </div>
 
-      <div className="pointer-events-none absolute inset-x-5 bottom-4 flex items-center justify-between z-20 font-mono text-[9px] uppercase tracking-[0.18em] text-faint">
-        <span className="text-faint/80">{activeNode}</span>
-        <span className="hidden sm:inline-block text-faint/60">
-          99.98% SYNC // RT
+      <div className="pointer-events-none absolute inset-x-4 bottom-3 sm:inset-x-5 sm:bottom-4 flex items-center justify-between z-20 font-mono text-[8px] sm:text-[9px] uppercase tracking-[0.14em] sm:tracking-[0.18em] text-faint">
+        <span className="text-faint/80">
+          {GLOBE_LABELS.bottomLeft}
+        </span>
+        <span className="text-faint/70">
+          {GLOBE_LABELS.bottomRight}
         </span>
       </div>
     </div>

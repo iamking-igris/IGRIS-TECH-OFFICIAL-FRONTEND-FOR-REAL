@@ -1,6 +1,6 @@
 import { u as require_jsx_runtime } from "../_libs/@radix-ui/react-alert-dialog+[...].mjs";
 import { v as Link } from "../_libs/@tanstack/react-router+[...].mjs";
-import { a as breadcrumbJsonLd, m as Container, s as organizationJsonLd } from "./router-RsAy9zmm.mjs";
+import { a as breadcrumbJsonLd, m as Container, s as organizationJsonLd } from "./router-LJGBwkzE.mjs";
 import { t as JsonLd } from "./json-ld-IR7igJk0.mjs";
 import { t as CtaBand } from "./cta-band-DnOAzWzz.mjs";
 import { t as PageHeader } from "./page-header-InNPX9q0.mjs";

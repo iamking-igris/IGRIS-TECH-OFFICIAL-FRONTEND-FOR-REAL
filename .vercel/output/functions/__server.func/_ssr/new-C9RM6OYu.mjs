@@ -1,6 +1,6 @@
 import { u as require_jsx_runtime } from "../_libs/@radix-ui/react-alert-dialog+[...].mjs";
 import { y as useNavigate } from "../_libs/@tanstack/react-router+[...].mjs";
-import { M as createProject, x as emptyProjectInput } from "./router-RsAy9zmm.mjs";
+import { M as createProject, x as emptyProjectInput } from "./router-LJGBwkzE.mjs";
 import { n as toast } from "../_libs/sonner.mjs";
 import { t as ProjectForm } from "./project-form-BJ1lRR-B.mjs";
 //#region node_modules/.nitro/vite/services/ssr/assets/new-C9RM6OYu.js

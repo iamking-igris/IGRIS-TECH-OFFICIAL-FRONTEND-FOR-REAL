@@ -1,6 +1,6 @@
 import { i as __toESM } from "../_runtime.mjs";
 import { d as require_react, u as require_jsx_runtime } from "../_libs/@radix-ui/react-alert-dialog+[...].mjs";
-import { P as slugify, _ as cn, b as PROJECT_STATUSES, h as Button, v as PROJECT_CATEGORIES, y as PROJECT_SERVICE_OPTIONS } from "./router-RsAy9zmm.mjs";
+import { P as slugify, _ as cn, b as PROJECT_STATUSES, h as Button, v as PROJECT_CATEGORIES, y as PROJECT_SERVICE_OPTIONS } from "./router-LJGBwkzE.mjs";
 import { i as SelectInput, n as CheckRow, o as TextArea, r as Field, s as TextInput } from "./fields-BhPnEFGH.mjs";
 //#region node_modules/.nitro/vite/services/ssr/assets/project-form-BJ1lRR-B.js
 var import_react = /* @__PURE__ */ __toESM(require_react());

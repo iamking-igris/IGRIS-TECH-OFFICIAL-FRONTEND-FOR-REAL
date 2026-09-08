@@ -1,1 +1,0 @@
-import{t as e}from"./admin-gate-BMcuJtfL.js";var t=e;export{t as component};

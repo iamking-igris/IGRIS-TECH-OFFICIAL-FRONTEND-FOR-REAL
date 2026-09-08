@@ -1,5 +1,5 @@
 import { u as require_jsx_runtime } from "../_libs/@radix-ui/react-alert-dialog+[...].mjs";
-import { m as Container } from "./router-RsAy9zmm.mjs";
+import { m as Container } from "./router-LJGBwkzE.mjs";
 //#region node_modules/.nitro/vite/services/ssr/assets/page-header-InNPX9q0.js
 var import_jsx_runtime = require_jsx_runtime();
 function PageHeader({ kicker, title, description }) {
