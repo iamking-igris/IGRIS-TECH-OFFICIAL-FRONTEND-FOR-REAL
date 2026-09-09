@@ -15,7 +15,7 @@ const variants = {
 type Variant = keyof typeof variants;
 
 const base =
-  "inline-flex items-center justify-center gap-2.5 h-12 min-h-12 px-6 text-sm font-medium tracking-wide transition-[color,background-color,border-color,transform] duration-150 ease-out active:scale-[0.96] disabled:opacity-50 disabled:pointer-events-none";
+  "inline-flex min-w-0 max-w-full items-center justify-center gap-2.5 whitespace-nowrap text-center align-middle h-12 min-h-12 px-6 text-sm font-medium tracking-wide transition-[color,background-color,border-color,transform] duration-150 ease-out active:scale-[0.96] disabled:opacity-50 disabled:pointer-events-none overflow-hidden";
 
 function withArrow(children: ReactNode, arrow?: boolean) {
   if (!arrow) return children;

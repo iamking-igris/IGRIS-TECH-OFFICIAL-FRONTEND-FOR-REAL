@@ -25,20 +25,32 @@ export function HomeHero() {
             intelligent solutions for individuals, brands, and businesses.
           </p>
           <div
-            className="hero-rise mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center md:mt-10 md:gap-4"
+            className="hero-rise mt-8 flex flex-col items-stretch gap-3 md:mt-10 md:flex-row md:items-center md:gap-4"
             style={{ animationDelay: "240ms" }}
           >
-            <ButtonLink to="/contact" variant="primary" className="w-full sm:w-auto">
+            <ButtonLink to="/contact" variant="primary" className="w-full md:w-auto">
               Start a Project
             </ButtonLink>
-            <ButtonLink to="/work" variant="ghost" className="w-full sm:w-auto">
+            <ButtonLink to="/work" variant="ghost" className="w-full md:w-auto">
               Explore Our Work
             </ButtonLink>
           </div>
         </div>
 
-        <div className="relative h-[260px] w-full sm:h-[300px] md:col-span-6 md:h-[min(68vh,620px)]">
-          <GlobalNetworkGlobe className="h-full w-full" />
+        <div className="mt-8 md:mt-0 md:col-span-6 lg:col-span-6">
+          <div className="mb-3 flex items-center justify-between gap-3 text-[0.58rem] font-medium uppercase tracking-[0.18em] text-faint md:hidden">
+            <span>SYSTEM / IGRIS</span>
+            <span>NETWORK / GLOBAL</span>
+          </div>
+
+          <div className="relative mx-auto h-[250px] w-[min(88vw,420px)] max-w-full sm:h-[280px] sm:w-[min(82vw,450px)] md:h-[min(68vh,620px)] md:w-full">
+            <GlobalNetworkGlobe className="h-full w-full" />
+          </div>
+
+          <div className="mt-3 flex items-center justify-between gap-3 text-[0.58rem] font-medium uppercase tracking-[0.18em] text-faint md:hidden">
+            <span>BUILD / EVOLVE</span>
+            <span>IDEAS → IMPACT</span>
+          </div>
         </div>
       </div>
     </section>

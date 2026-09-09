@@ -9,17 +9,18 @@ type SeoInput = {
 
 export function pageHead({ title, description, path = "/", noIndex }: SeoInput) {
   const url = absoluteUrl(path);
-  const imageUrl = `${SITE.domain}/brand/igris-mark-on-dark.png`;
+  const imageUrl = `${SITE.domain}/og-image.png`;
   return {
     meta: [
       { title },
       { name: "description", content: description },
+      { name: "keywords", content: SITE.keywords.join(", ") },
       { name: "robots", content: noIndex ? "noindex, nofollow" : "index, follow" },
-      { name: "theme-color", content: "#070708" },
+      { name: "theme-color", content: "#05060A" },
       { name: "application-name", content: SITE.name },
       { name: "author", content: SITE.name },
       { name: "generator", content: "IGRIS Tech" },
-      { name: "og:site_name", content: SITE.name },
+      { property: "og:site_name", content: SITE.name },
       { property: "og:title", content: title },
       { property: "og:description", content: description },
       { property: "og:url", content: url },
@@ -29,7 +30,7 @@ export function pageHead({ title, description, path = "/", noIndex }: SeoInput) 
       { property: "og:image:secure_url", content: imageUrl },
       { property: "og:image:type", content: "image/png" },
       { property: "og:image:width", content: "1200" },
-      { property: "og:image:height", content: "1200" },
+      { property: "og:image:height", content: "630" },
       { property: "og:image:alt", content: `${SITE.name} brand preview` },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@igristech" },

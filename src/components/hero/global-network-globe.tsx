@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { cn } from "@/lib/utils";
 import {
@@ -189,11 +189,29 @@ const sphereCoreFragmentShader = `
 export function GlobalNetworkGlobe({ className }: { className?: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [fallback, setFallback] = useState(false);
 
   useEffect(() => {
     const container = containerRef.current;
     const canvas = canvasRef.current;
     if (!container || !canvas) return;
+
+    const supportsWebGL = () => {
+      try {
+        const testCanvas = document.createElement("canvas");
+        return !!(
+          window.WebGLRenderingContext &&
+          (testCanvas.getContext("webgl") || testCanvas.getContext("experimental-webgl"))
+        );
+      } catch {
+        return false;
+      }
+    };
+
+    if (!supportsWebGL()) {
+      setFallback(true);
+      return;
+    }
 
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
@@ -211,12 +229,18 @@ export function GlobalNetworkGlobe({ className }: { className?: string }) {
     // Position camera with comfortable breathing room around the sphere
     camera.position.z = isMobile ? 210 : 270;
 
-    const renderer = new THREE.WebGLRenderer({
-      canvas,
-      antialias: true,
-      alpha: true,
-      powerPreference: "high-performance",
-    });
+    let renderer: THREE.WebGLRenderer;
+    try {
+      renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: true,
+        alpha: true,
+        powerPreference: "high-performance",
+      });
+    } catch {
+      setFallback(true);
+      return;
+    }
     renderer.setSize(width, height);
     renderer.setPixelRatio(dpr);
     renderer.setClearColor(0x000000, 0);
@@ -704,10 +728,19 @@ export function GlobalNetworkGlobe({ className }: { className?: string }) {
       {/* Subtle Atmospheric Radial Vignette */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(243,243,240,0.03)_0%,transparent_65%)]" />
 
+      {fallback ? (
+        <div className="absolute inset-0 z-10 flex items-center justify-center">
+          <div className="relative h-[72%] w-[72%] rounded-full border border-hairline bg-[radial-gradient(circle_at_30%_30%,rgba(243,243,240,0.22),rgba(243,243,240,0.06)_18%,rgba(7,7,8,0.94)_62%,rgba(7,7,8,1)_100%)] shadow-[0_0_30px_rgba(243,243,240,0.08)]" />
+        </div>
+      ) : null}
+
       {/* WebGL 3D Globe Canvas */}
       <canvas
         ref={canvasRef}
-        className="relative z-10 block h-full w-full cursor-grab touch-pan-y active:cursor-grabbing"
+        className={cn(
+          "relative z-10 block h-full w-full cursor-grab touch-pan-y active:cursor-grabbing",
+          fallback && "hidden",
+        )}
       />
 
       {/* Subtle Minimalist HUD Telemetry Annotations */}

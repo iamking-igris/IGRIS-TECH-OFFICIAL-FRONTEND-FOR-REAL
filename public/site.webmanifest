@@ -1,0 +1,13 @@
+{
+  "name": "IGRIS Tech",
+  "short_name": "IGRIS",
+  "description": "IGRIS Tech builds digital products, websites, software, and intelligent solutions for individuals, brands, and businesses.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#05060A",
+  "theme_color": "#05060A",
+  "icons": [
+    { "src": "/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

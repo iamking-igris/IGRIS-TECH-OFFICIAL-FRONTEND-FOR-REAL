@@ -5,6 +5,16 @@ export const SITE = {
   tagline: "We build what's next.",
   description:
     "IGRIS Tech builds digital products, software, websites, and intelligent solutions for individuals, brands, and businesses.",
+  keywords: [
+    "software development",
+    "web development",
+    "digital products",
+    "AI solutions",
+    "custom software agency",
+    "brand systems",
+    "automation",
+    "web design & build",
+  ],
   email: null as string | null,
   social: [] as { label: string; href: string }[],
 } as const;
