@@ -198,17 +198,18 @@ export function GlobalNetworkGlobe({ className }: { className?: string }) {
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
+    const isMobile = window.matchMedia("(max-width: 767px)").matches;
 
     // Dimensions & DPR
     let width = container.clientWidth || 400;
     let height = container.clientHeight || 400;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2);
 
     // Three.js Scene, Camera, Renderer
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 1500);
     // Position camera with comfortable breathing room around the sphere
-    camera.position.z = 270;
+    camera.position.z = isMobile ? 210 : 270;
 
     const renderer = new THREE.WebGLRenderer({
       canvas,
@@ -220,8 +221,7 @@ export function GlobalNetworkGlobe({ className }: { className?: string }) {
     renderer.setPixelRatio(dpr);
     renderer.setClearColor(0x000000, 0);
 
-    // Reduced scale: GLOBE_RADIUS = 76 gives ample negative space on all 4 sides
-    const GLOBE_RADIUS = 76;
+    const GLOBE_RADIUS = isMobile ? 58 : 76;
     const globeGroup = new THREE.Group();
     // Default initial angle displaying Europe, Atlantic, Africa and Americas
     globeGroup.rotation.x = 0.22;
@@ -637,6 +637,9 @@ export function GlobalNetworkGlobe({ className }: { className?: string }) {
       if (!container || !renderer) return;
       width = container.clientWidth || 400;
       height = container.clientHeight || 400;
+      if (isMobile && width < 300) {
+        width = 300;
+      }
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
       renderer.setSize(width, height);
