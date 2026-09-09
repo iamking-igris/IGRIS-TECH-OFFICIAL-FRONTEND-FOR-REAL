@@ -1,6 +1,23 @@
-import { useCallback, useEffect, useRef, useState, type PointerEvent } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent } from "react";
 import { cn } from "@/lib/utils";
 import type { ProjectVisualId } from "@/lib/content";
+
+function normalizeProjectImageUrl(url?: string | null) {
+  if (!url) return null;
+
+  const trimmed = url.trim();
+  if (!trimmed) return null;
+
+  try {
+    const parsed = new URL(trimmed);
+    if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+      return null;
+    }
+    return trimmed;
+  } catch {
+    return null;
+  }
+}
 
 export function ProjectVisual({
   visual,
@@ -18,11 +35,12 @@ export function ProjectVisual({
   const ref = useRef<HTMLDivElement>(null);
   const [imgError, setImgError] = useState(false);
   const [imgLoaded, setImgLoaded] = useState(false);
+  const resolvedImageUrl = useMemo(() => normalizeProjectImageUrl(imageUrl), [imageUrl]);
 
   useEffect(() => {
     setImgError(false);
     setImgLoaded(false);
-  }, [imageUrl]);
+  }, [resolvedImageUrl]);
 
   const onMove = useCallback(
     (e: PointerEvent<HTMLDivElement>) => {
@@ -64,9 +82,9 @@ export function ProjectVisual({
         {visual === "beta" && <Beta />}
         {visual === "gamma" && <Gamma />}
 
-        {imageUrl && !imgError && (
+        {resolvedImageUrl && !imgError && (
           <img
-            src={imageUrl}
+            src={resolvedImageUrl}
             alt=""
             className={cn(
               "absolute inset-0 h-full w-full object-cover transition-opacity duration-500",

@@ -53,8 +53,10 @@ function buildProject(
     technologies: input.technologies,
     gallery: current?.gallery ?? [],
     testimonial: current?.testimonial ?? null,
-    featuredImage: input.cover_image?.trim() || current?.featuredImage || null,
-    cover_image: input.cover_image?.trim() || current?.cover_image || null,
+    featuredImage:
+      input.cover_image?.trim() || current?.cover_image || current?.featuredImage || null,
+    cover_image:
+      input.cover_image?.trim() || current?.cover_image || current?.featuredImage || null,
     url: input.url.trim() ? input.url.trim() : null,
     featured: input.featured,
     published,

@@ -46,6 +46,8 @@ export function emptyProjectInput(): ProjectInput {
 }
 
 export function projectToInput(project: Project): ProjectInput {
+  const coverImage = (project.cover_image ?? project.featuredImage ?? "").trim();
+
   return {
     title: project.title,
     slug: project.slug,
@@ -61,7 +63,7 @@ export function projectToInput(project: Project): ProjectInput {
     services: project.services,
     technologies: project.technologies,
     url: project.url ?? "",
-    cover_image: project.featuredImage ?? "",
+    cover_image: coverImage,
     status: project.status,
     published: project.published,
     featured: project.featured,
