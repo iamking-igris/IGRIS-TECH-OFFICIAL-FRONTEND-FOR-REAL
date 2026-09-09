@@ -38,18 +38,8 @@ export function HomeHero() {
         </div>
 
         <div className="mt-8 md:mt-0 md:col-span-6 lg:col-span-6">
-          <div className="mb-3 flex items-center justify-between gap-3 text-[0.58rem] font-medium uppercase tracking-[0.18em] text-faint md:hidden">
-            <span>SYSTEM / IGRIS</span>
-            <span>NETWORK / GLOBAL</span>
-          </div>
-
           <div className="relative mx-auto h-[250px] w-[min(88vw,420px)] max-w-full sm:h-[280px] sm:w-[min(82vw,450px)] md:h-[min(68vh,620px)] md:w-full">
             <GlobalNetworkGlobe className="h-full w-full" />
-          </div>
-
-          <div className="mt-3 flex items-center justify-between gap-3 text-[0.58rem] font-medium uppercase tracking-[0.18em] text-faint md:hidden">
-            <span>BUILD / EVOLVE</span>
-            <span>IDEAS → IMPACT</span>
           </div>
         </div>
       </div>

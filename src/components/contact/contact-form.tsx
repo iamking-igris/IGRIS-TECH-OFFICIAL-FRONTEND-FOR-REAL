@@ -190,7 +190,7 @@ export function ContactForm() {
           {message}
         </p>
       )}
-      <div>
+      <div className="grid gap-3">
         <Button
           type="submit"
           variant="primary"
@@ -199,6 +199,22 @@ export function ContactForm() {
         >
           {status === "submitting" ? "Sending…" : "Start a Project"}
         </Button>
+
+        <a
+          href="https://wa.me/2348147648714?text=Hi%2C%20I%27d%20like%20to%20start%20a%20project%20with%20IGRIS%20Tech"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex h-12 min-h-12 items-center justify-center gap-2.5 whitespace-nowrap border border-hairline bg-transparent px-6 text-sm font-medium tracking-wide text-ink transition-[color,background-color,border-color,transform] duration-150 ease-out hover:border-quiet hover:bg-raised/40 active:scale-[0.96]"
+        >
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 24 24"
+            className="h-4 w-4 fill-current"
+          >
+            <path d="M20.52 3.48A11.6 11.6 0 0 0 12.09 1C6.34 1 1.7 5.66 1.7 11.4c0 2.02.53 3.99 1.53 5.72L1.6 22.4l5.46-1.42A10.4 10.4 0 0 0 12.09 21c5.75 0 10.41-4.66 10.41-10.4 0-2.78-1.08-5.4-3.0-7.12ZM12.09 18.8c-1.65 0-3.27-.44-4.68-1.28l-.34-.2-3.24.84.86-3.15-.22-.35A8.44 8.44 0 0 1 3.67 11.4c0-4.67 3.8-8.47 8.42-8.47 2.25 0 4.37.88 5.98 2.48a8.37 8.37 0 0 1 2.5 5.99c0 4.66-3.8 8.46-8.46 8.46Zm4.66-6.35c-.25-.13-1.48-.73-1.72-.82-.24-.08-.41-.13-.58.13-.17.25-.65.82-.8 1-.13.15-.28.18-.53.06-.25-.13-1.05-.39-2-1.26-.74-.66-1.23-1.48-1.38-1.73-.14-.25-.01-.39.11-.52.12-.12.26-.31.39-.46.13-.15.17-.26.26-.43.09-.17.05-.32-.02-.45-.07-.13-.58-1.4-.79-1.92-.21-.5-.42-.43-.58-.44h-.49c-.17 0-.45.06-.68.32-.23.26-.88.86-.88 2.09 0 1.23.9 2.44.1 2.9l.03.04c.14.21.9 1.36 2.19 2.1.77.33 1.38.54 1.85.69.77.24 1.47.21 2.03.12.62-.09 1.48-.61 1.69-1.19.2-.58.2-1.08.14-1.18-.07-.1-.24-.16-.49-.28Z" />
+          </svg>
+          Chat on WhatsApp
+        </a>
       </div>
     </form>
   );

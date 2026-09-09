@@ -54,7 +54,9 @@ export function ButtonLink({
       <a
         href={href}
         className={classes}
-        {...(external ? { target: "_blank", rel: "noreferrer" } : {})}
+        {...(external
+          ? { target: "_blank", rel: "noopener noreferrer" }
+          : {})}
       >
         {content}
       </a>
