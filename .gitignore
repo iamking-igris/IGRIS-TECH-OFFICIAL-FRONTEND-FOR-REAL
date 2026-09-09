@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Production and build outputs
+.vercel/
+.output/
+.nitro/
+dist/
+
+# Environment variables & local configuration
+.env
+.env.*
+.env.local
+!.env.example
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# System & editor files
+.DS_Store
+Thumbs.db

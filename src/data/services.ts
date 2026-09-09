@@ -118,6 +118,9 @@ export const supportingCapabilities = [
   },
 ] as const;
 
-export function getService(slug: string) {
+export function getService(slug: string): Service | undefined {
+  if (!services || !Array.isArray(services)) {
+    return undefined;
+  }
   return services.find((s) => s.slug === slug);
 }
