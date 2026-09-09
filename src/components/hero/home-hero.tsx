@@ -10,7 +10,7 @@ export function HomeHero() {
         <div className="md:col-span-6 lg:col-span-6">
           <p className="label-tech hero-rise mb-7">IGRIS / 00</p>
           <h1
-            className="hero-rise font-display text-[clamp(2.6rem,8vw,6.8rem)] font-semibold leading-[0.92] tracking-[-0.045em] text-ink"
+            className="hero-rise max-w-[7.5ch] font-display text-[clamp(3rem,17vw,6.8rem)] font-semibold leading-[0.82] tracking-[-0.055em] text-ink md:max-w-none md:text-[clamp(2.6rem,8vw,6.8rem)] md:leading-[0.92]"
             style={{ animationDelay: "80ms" }}
           >
             We build
