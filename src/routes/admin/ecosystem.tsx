@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { AdminPending } from "@/components/admin/admin-gate";
@@ -187,6 +187,11 @@ function EcosystemForm({
 }) {
   const [form, setForm] = useState<EcosystemInput>(initial);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    setForm(initial);
+    setError("");
+  }, [initial]);
 
   function submit(e: FormEvent) {
     e.preventDefault();

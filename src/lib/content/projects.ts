@@ -39,6 +39,7 @@ export function emptyProjectInput(): ProjectInput {
     services: [],
     technologies: [],
     url: "",
+    cover_image: "",
     status: "in-preparation",
     published: false,
     featured: true,

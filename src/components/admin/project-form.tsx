@@ -34,6 +34,13 @@ export function ProjectForm({
   const [error, setError] = useState("");
   const [slugTouched, setSlugTouched] = useState(Boolean(initial.slug));
 
+  useEffect(() => {
+    setForm(initial);
+    setTech(initial.technologies.join(", "));
+    setCover(initial.cover_image ?? "");
+    setSlugTouched(Boolean(initial.slug));
+  }, [initial]);
+
   function patch<K extends keyof ProjectInput>(key: K, value: ProjectInput[K]) {
     setForm((current) => ({ ...current, [key]: value }));
   }
