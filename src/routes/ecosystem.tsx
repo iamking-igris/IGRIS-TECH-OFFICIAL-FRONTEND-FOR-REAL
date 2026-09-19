@@ -4,6 +4,7 @@ import { Container } from "@/components/page/container";
 import { PageHeader } from "@/components/page/page-header";
 import { StatusChip } from "@/components/page/status-chip";
 import { JsonLd } from "@/components/seo/json-ld";
+import Seo from "@/components/seo/Seo";
 import { FUTURE_PRODUCTS_NOTE, usePublishedEcosystem } from "@/lib/content";
 import { breadcrumbJsonLd, pageHead } from "@/lib/seo";
 
@@ -23,6 +24,7 @@ function EcosystemPage() {
 
   return (
     <main id="main">
+      <Seo path="/ecosystem" title="Ecosystem — IGRIS Tech" description="Products built by IGRIS Tech, including IGRIS Hosting and IGRIS Studio." />
       <JsonLd
         data={breadcrumbJsonLd([
           { name: "Home", path: "/" },

@@ -8,7 +8,8 @@ import { WorkSection } from "@/components/projects/work-section";
 import { JsonLd } from "@/components/seo/json-ld";
 import { ServicesSection } from "@/components/services/services-section";
 import { ReviewsSection } from "@/components/testimonials/reviews-section";
-import { organizationJsonLd, pageHead, websiteJsonLd } from "@/lib/seo";
+import { organizationJsonLd, websiteJsonLd } from "@/lib/seo";
+import Seo from "@/components/seo/Seo";
 
 export const Route = createFileRoute("/")({
   head: () =>
@@ -24,6 +25,7 @@ export const Route = createFileRoute("/")({
 function Home() {
   return (
     <main id="main">
+      <Seo />
       <JsonLd data={organizationJsonLd()} />
       <JsonLd data={websiteJsonLd()} />
       <HomeHero />
