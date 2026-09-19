@@ -70,7 +70,11 @@ function EcosystemPage() {
                         <p className="font-mono text-xs tracking-widest text-faint">
                           {String(i + 1).padStart(2, "0")} / {product.category.toUpperCase()}
                         </p>
-                        <StatusChip>{product.status.toUpperCase()}</StatusChip>
+                        {((product.published === true) || (product.status && /live/i.test(String(product.status)))) ? (
+                          <StatusChip>LIVE</StatusChip>
+                        ) : (
+                          <StatusChip>{String(product.status || "").toUpperCase()}</StatusChip>
+                        )}
                       </div>
                       <h2 className="mt-5 font-display text-3xl font-semibold tracking-[-0.03em]">
                         {product.name}
