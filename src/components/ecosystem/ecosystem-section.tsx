@@ -43,10 +43,10 @@ export function EcosystemSection() {
                   <p className="font-mono text-xs tracking-widest text-faint">
                     {String(i + 1).padStart(2, "0")} / {product.category.toUpperCase()}
                   </p>
-                  {product.url && (product.published === true || /live/i.test(String(product.status))) ? (
+                  {product.url ? (
                     <StatusChip>LIVE</StatusChip>
                   ) : (
-                    <StatusChip>{String(product.status || "").toUpperCase()}</StatusChip>
+                    <StatusChip>NOT LIVE YET</StatusChip>
                   )}
                 </div>
                 <h3 className="mt-4 font-display text-3xl font-semibold tracking-[-0.03em]">
