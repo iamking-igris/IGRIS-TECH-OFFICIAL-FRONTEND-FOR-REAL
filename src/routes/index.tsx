@@ -6,10 +6,10 @@ import { HomeHero } from "@/components/hero/home-hero";
 import { ProcessSection } from "@/components/process/process-section";
 import { WorkSection } from "@/components/projects/work-section";
 import { JsonLd } from "@/components/seo/json-ld";
+import Seo from "@/components/seo/Seo";
 import { ServicesSection } from "@/components/services/services-section";
 import { ReviewsSection } from "@/components/testimonials/reviews-section";
-import { organizationJsonLd, websiteJsonLd } from "@/lib/seo";
-import Seo from "@/components/seo/Seo";
+import { organizationJsonLd, pageHead, websiteJsonLd } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
   head: () =>

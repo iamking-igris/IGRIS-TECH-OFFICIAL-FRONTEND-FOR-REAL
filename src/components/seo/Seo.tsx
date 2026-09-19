@@ -1,6 +1,5 @@
 import React from "react";
-import { Helmet, HelmetProvider } from "react-helmet-async";
-import { SITE, absoluteUrl } from "@/lib/site";
+import { SITE } from "@/lib/site";
 
 type SeoProps = {
   title?: string;
@@ -9,35 +8,22 @@ type SeoProps = {
   noIndex?: boolean;
 };
 
-export function Seo({ title, description, path = "/", noIndex }: SeoProps) {
-  const fullTitle = title || "IGRIS Tech | We Build Digital Products, Websites & Intelligent Software";
-  const desc = description || "IGRIS Tech builds digital products, websites, software and intelligent solutions for individuals, brands and businesses. Start your project today.";
-  const url = absoluteUrl(path);
-  const image = `${SITE.domain}/brand/igris-og.png`;
+// Minimal client-side SEO component. Server-side meta is handled by `pageHead` in routes.
+export function Seo({ title, description }: SeoProps) {
+  React.useEffect(() => {
+    if (title) document.title = title;
+    if (description) {
+      let el = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
+      if (!el) {
+        el = document.createElement("meta");
+        el.name = "description";
+        document.head.appendChild(el);
+      }
+      el.content = description;
+    }
+  }, [title, description]);
 
-  return (
-    <HelmetProvider>
-      <Helmet>
-        <title>{fullTitle}</title>
-        <meta name="description" content={desc} />
-        <meta name="robots" content={noIndex ? "noindex, nofollow" : "index, follow"} />
-        <link rel="canonical" href={url} />
-
-        {/* Open Graph */}
-        <meta property="og:title" content={fullTitle} />
-        <meta property="og:description" content={desc} />
-        <meta property="og:url" content={url} />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content={image} />
-
-        {/* Twitter */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={fullTitle} />
-        <meta name="twitter:description" content={desc} />
-        <meta name="twitter:image" content={image} />
-      </Helmet>
-    </HelmetProvider>
-  );
+  return null;
 }
 
 export default Seo;
