@@ -12,7 +12,7 @@ export const Route = createFileRoute("/about")({
     pageHead({
       title: "About IGRIS Tech",
       description:
-        "IGRIS Tech helps people and businesses turn ideas into digital products while building technology of its own.",
+        "Learn about IGRIS Tech, the products we build, and our approach to software, AI, and automation.",
       path: "/about",
     }),
   component: AboutPage,

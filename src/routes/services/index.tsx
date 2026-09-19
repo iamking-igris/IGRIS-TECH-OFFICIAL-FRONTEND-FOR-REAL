@@ -11,12 +11,12 @@ import { breadcrumbJsonLd, pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/services/")({
   head: () =>
-    pageHead({
-      title: "Services — Web Development, Software, AI & Automation | IGRIS Tech",
-      description:
-        "Web development, software development, AI solutions, and automation from IGRIS Tech. Hire a team to design, build, and launch digital products.",
-      path: "/services",
-    }),
+      pageHead({
+        title: "Software, AI & Automation Solutions",
+        description:
+          "Explore software development, AI, automation, and digital solutions built by IGRIS Tech.",
+        path: "/services",
+      }),
   component: ServicesIndex,
 });
 

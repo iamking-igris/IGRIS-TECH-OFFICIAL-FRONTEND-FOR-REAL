@@ -8,9 +8,9 @@ import { breadcrumbJsonLd, pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/contact")({
   head: () =>
     pageHead({
-      title: "Start a Project — IGRIS Tech",
+      title: "Contact IGRIS Tech",
       description:
-        "Tell IGRIS Tech what you want to build. We’ll review your project and get back to you.",
+        "Get in touch with IGRIS Tech about software development, AI, automation, and digital product projects.",
       path: "/contact",
     }),
   component: ContactPage,

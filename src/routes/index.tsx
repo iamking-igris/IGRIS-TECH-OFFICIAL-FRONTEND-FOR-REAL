@@ -14,9 +14,9 @@ import Seo from "@/components/seo/Seo";
 export const Route = createFileRoute("/")({
   head: () =>
     pageHead({
-      title: "IGRIS Tech — Digital Products, Web Development & Software",
+      title: "IGRIS Tech — Software, AI & Automation",
       description:
-        "IGRIS Tech builds websites, software, AI solutions, and automation for individuals, brands, and businesses.",
+        "IGRIS Tech builds modern software, AI solutions, automation systems, and digital products that turn ideas into reality.",
       path: "/",
     }),
   component: Home,
