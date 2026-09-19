@@ -73,7 +73,7 @@ function EcosystemPage() {
                         {product.url ? (
                           <StatusChip>LIVE</StatusChip>
                         ) : (
-                          <StatusChip>NOT LIVE YET</StatusChip>
+                          <StatusChip>IN DEVELOPMENT</StatusChip>
                         )}
                       </div>
                       <h2 className="mt-5 font-display text-3xl font-semibold tracking-[-0.03em]">

@@ -46,7 +46,7 @@ export function EcosystemSection() {
                   {product.url ? (
                     <StatusChip>LIVE</StatusChip>
                   ) : (
-                    <StatusChip>NOT LIVE YET</StatusChip>
+                    <StatusChip>IN DEVELOPMENT</StatusChip>
                   )}
                 </div>
                 <h3 className="mt-4 font-display text-3xl font-semibold tracking-[-0.03em]">
