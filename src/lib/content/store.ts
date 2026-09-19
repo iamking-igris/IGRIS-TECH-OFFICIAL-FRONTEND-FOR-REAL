@@ -98,7 +98,7 @@ function buildEcosystem(
     order: Number.isFinite(input.order) ? input.order : existing.length + 1,
     published: input.published,
     category: current?.category || "Product",
-    subdomain: url ? hostnameFromUrl(url) : current?.subdomain || `${slug}.igristech.com`,
+    subdomain: url ? hostnameFromUrl(url) : current?.subdomain || `${slug}.igris.com.ng`,
   };
 }
 
@@ -199,7 +199,7 @@ export const useContentStore = create<ContentState>()(
               order: idx + 1,
               published: e.status === "ACTIVE",
               category: "Product",
-              subdomain: e.link ? hostnameFromUrl(e.link) : `${e.slug}.igristech.com`,
+              subdomain: e.link ? hostnameFromUrl(e.link) : `${e.slug}.igris.com.ng`,
             }));
             set({ ecosystem: mappedEco });
           }

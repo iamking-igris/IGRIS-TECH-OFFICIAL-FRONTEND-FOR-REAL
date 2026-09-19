@@ -29,7 +29,7 @@ export function EcosystemSection() {
               follow.
             </p>
             <p className="mt-4 font-mono text-xs tracking-wider text-faint">
-              igristech.com
+              igris.com.ng
             </p>
           </div>
           <ol className="md:col-span-8">
@@ -52,7 +52,13 @@ export function EcosystemSection() {
                   {product.description}
                 </p>
                 <p className="mt-4 font-mono text-xs tracking-wider text-faint">
-                  {product.url ?? `${product.subdomain} — not live yet`}
+                  {product.url ? (
+                    <a href={product.url} className="text-ink hover:underline">
+                      {product.url.replace(/^https?:\/\//, "")} →
+                    </a>
+                  ) : (
+                    <>{product.subdomain} — not live yet</>
+                  )}
                 </p>
               </li>
             ))}

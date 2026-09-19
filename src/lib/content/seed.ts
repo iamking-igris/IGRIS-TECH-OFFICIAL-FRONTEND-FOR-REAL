@@ -127,7 +127,7 @@ export const seedEcosystem: EcosystemProduct[] = [
     order: 1,
     published: true,
     category: "Infrastructure",
-    subdomain: "hosting.igristech.com",
+    subdomain: "hosting.igris.com.ng",
   },
   {
     id: "eco_studio",
@@ -140,11 +140,11 @@ export const seedEcosystem: EcosystemProduct[] = [
     order: 2,
     published: true,
     category: "Platform",
-    subdomain: "studio.igristech.com",
+    subdomain: "studio.igris.com.ng",
   },
 ];
 
 export const seedReviews: Review[] = [];
 
 export const FUTURE_PRODUCTS_NOTE =
-  "Further products will sit on their own subdomains under igristech.com when they are ready.";
+  "Further products will sit on their own subdomains under igris.com.ng when they are ready.";

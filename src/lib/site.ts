@@ -1,7 +1,7 @@
 export const SITE = {
   name: "IGRIS Tech",
   legalName: "IGRIS Tech",
-  domain: "https://igristech.com",
+  domain: "https://igris.com.ng",
   tagline: "We build what's next.",
   description:
     "IGRIS Tech builds digital products, software, websites, and intelligent solutions for individuals, brands, and businesses.",
