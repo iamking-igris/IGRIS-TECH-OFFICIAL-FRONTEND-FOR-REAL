@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin
 Disallow: /admin/
 
-Sitemap: https://igristech.com/sitemap.xml
+Sitemap: https://igris.com.ng/sitemap.xml

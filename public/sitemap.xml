@@ -1,5 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://igris.com.ng/</loc>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://igris.com.ng/services</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://igris.com.ng/work</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://igris.com.ng/ecosystem</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://igris.com.ng/about</loc>
+    <priority>0.6</priority>
+  </url>
+</urlset>
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://igristech.com/</loc></url>
   <url><loc>https://igristech.com/services</loc></url>
   <url><loc>https://igristech.com/services/web-development</loc></url>
