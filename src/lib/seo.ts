@@ -52,7 +52,7 @@ export function organizationJsonLd() {
     name: SITE.name,
     url: SITE.domain,
     description: SITE.description,
-    logo: `${SITE.domain}/brand/igris-mark.png`,
+    logo: `${SITE.domain}/brand/igris-mark-source.png`,
   };
 }
 
