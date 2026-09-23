@@ -27,8 +27,8 @@ export function pageHead({ title, description, path = "/", noIndex }: SeoInput) 
       { property: "og:url", content: url },
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "en_NG" },
-      { property: "og:image", content: imageUrl },
-      { property: "og:image:secure_url", content: imageUrl },
+      { property: "og:image", content: `${SITE.domain}/brand/igris-mark-search.png` },
+      { property: "og:image:secure_url", content: `${SITE.domain}/brand/igris-mark-search.png` },
       { property: "og:image:type", content: "image/png" },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
@@ -38,7 +38,7 @@ export function pageHead({ title, description, path = "/", noIndex }: SeoInput) 
       { name: "twitter:creator", content: "@igristech" },
       { name: "twitter:title", content: title },
       { name: "twitter:description", content: description },
-      { name: "twitter:image", content: imageUrl },
+      { name: "twitter:image", content: `${SITE.domain}/brand/igris-mark-search.png` },
       { name: "twitter:image:alt", content: `${SITE.name} brand preview` },
     ],
     links: [{ rel: "canonical", href: url }],
@@ -52,7 +52,7 @@ export function organizationJsonLd() {
     name: SITE.name,
     url: SITE.domain,
     description: SITE.description,
-    logo: `${SITE.domain}/brand/igris-mark-source.png`,
+    logo: `${SITE.domain}/brand/igris-mark.png`,
   };
 }
 
