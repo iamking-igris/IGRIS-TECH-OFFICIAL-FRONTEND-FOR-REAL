@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { seedEcosystem, seedProjects, seedReviews } from "./seed";
+import { asOfflineFallback, coalescePublicCollections } from "./fallback";
 import { createId, hostnameFromUrl, uniqueSlug } from "./ids";
 import type {
   EcosystemInput,
@@ -137,6 +138,22 @@ export const useContentStore = create<ContentState>()(
       error: null,
 
       syncFromBackend: async () => {
+        const defaultCollections = {
+          projects: get().projects.length ? get().projects : seedProjects,
+          ecosystem: get().ecosystem.length ? get().ecosystem : seedEcosystem,
+          reviews: get().reviews.length ? get().reviews : seedReviews,
+        };
+
+        if (!authService.hasToken()) {
+          set({
+            ...defaultCollections,
+            inquiries: [],
+            loading: false,
+            error: null,
+          });
+          return;
+        }
+
         set({ loading: true, error: null });
         try {
           const [projectsResult, ecoResult, revResult] = await Promise.allSettled([
@@ -144,6 +161,21 @@ export const useContentStore = create<ContentState>()(
             apiEcosystem.getEcosystemProducts(),
             apiReviews.getApprovedReviews(),
           ]);
+
+          const fallbackCollections = coalescePublicCollections(defaultCollections, [
+            projectsResult,
+            ecoResult,
+            revResult,
+          ]);
+
+          if (asOfflineFallback([projectsResult, ecoResult, revResult])) {
+            set({
+              ...fallbackCollections,
+              loading: false,
+              error: "Backend unavailable — using the frozen public content snapshot.",
+            });
+            return;
+          }
 
           // Process Projects
           if (projectsResult.status === "fulfilled") {
